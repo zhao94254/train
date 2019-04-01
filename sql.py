@@ -18,7 +18,7 @@ def create_table(row, data):
     table = [table_row(*i) for i in data]
     return table
 
-def select(name, table):
+def select(name, table, condition=None):
     """
     :param name: 需要选的字段
     :param table: 表对象
@@ -30,8 +30,16 @@ def select(name, table):
     else:
         name = name.split(',')
     for t in table:
+        if not pfilter(t, condition):
+            continue
         res.append([getattr(t, n) for n in name])
     return res
+
+def pfilter(row, condition):
+    if condition:
+        return eval(condition, {field: getattr(row, field) for field in row._fields})
+    else:
+        return True
 
 if __name__ == '__main__':
     row = ('Row', 'name', 'age', 'location', 'money')
@@ -43,4 +51,4 @@ if __name__ == '__main__':
             ('douchuan', 18, 'changzhi', 322),
             ('heihai', 18, 'shanghai', 199), ]
     table = create_table(row, data)
-    print(select('name', table))
+    print(select('name', table, 'money>200'))
