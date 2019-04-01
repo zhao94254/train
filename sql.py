@@ -17,3 +17,30 @@ def create_table(row, data):
     table_row = namedtuple(row[0], row[1:])
     table = [table_row(*i) for i in data]
     return table
+
+def select(name, table):
+    """
+    :param name: 需要选的字段
+    :param table: 表对象
+    :return:
+    """
+    res = []
+    if name == '*':
+        name = table[0]._fields
+    else:
+        name = name.split(',')
+    for t in table:
+        res.append([getattr(t, n) for n in name])
+    return res
+
+if __name__ == '__main__':
+    row = ('Row', 'name', 'age', 'location', 'money')
+    data = [('jack', 12, 'beijing', 15),
+            ('rose', 15, 'shanghai', 23),
+            ('aha', 20, 'taiyuan', 345),
+            ('liuxing', 18, 'changzhi', 432),
+            ('luben', 18, 'shanghai', 233),
+            ('douchuan', 18, 'changzhi', 322),
+            ('heihai', 18, 'shanghai', 199), ]
+    table = create_table(row, data)
+    print(select('name', table))
