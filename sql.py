@@ -5,7 +5,7 @@
 # @File    : sql.py
 # @Software: PyCharm
 
-from collections import namedtuple
+from collections import namedtuple, defaultdict
 
 def create_table(row, data):
     """
@@ -18,7 +18,7 @@ def create_table(row, data):
     table = [table_row(*i) for i in data]
     return table
 
-def select(name, table, condition=None):
+def select(name, table, condition=None, group_by=None):
     """
     :param name: 需要选的字段
     :param table: 表对象
@@ -34,6 +34,8 @@ def select(name, table, condition=None):
         if not pfilter(t, condition):
             continue
         tmp.append(t)
+    if group_by:
+        _group = get_group(tmp, group_by)
     for t in tmp:
         res.append([getattr(t, n) for n in name])
     return res
@@ -43,6 +45,18 @@ def pfilter(row, condition):
         return eval(condition, {field: getattr(row, field) for field in row._fields})
     else:
         return True
+
+def get_group(data, field):
+    """
+    将data按照field分组
+    :param data:
+    :param field:
+    :return:
+    """
+    res = defaultdict(list)
+    for d in data:
+        res[getattr(d, field)].append(d)
+    return res
 
 if __name__ == '__main__':
     row = ('Job', 'title', 'salary', 'city', 'companyid')
