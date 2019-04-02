@@ -70,4 +70,4 @@ if __name__ == '__main__':
             ('pydev', 18, 'changzhi', 322),
             ('javadev', 18, 'shanghai', 199), ]
     table = create_table(row, data)
-    print(select('name', table, 'money>200'))
+    print(select('title,companyid', table, 'salary>15'))
