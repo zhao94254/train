@@ -18,26 +18,28 @@ def create_table(row, data):
     table = [table_row(*i) for i in data]
     return table
 
-def select(name, table, condition=None, group_by=None):
+def select(field, table, condition=None, group_by=None):
     """
-    :param name: 需要选的字段
+    :param field: 需要选的字段
     :param table: 表对象
     :return:
     """
     res = []
     tmp = []
-    if name == '*':
-        name = table[0]._fields
+    if field == '*':
+        field = table[0]._fields
     else:
-        name = name.split(',')
+        field = field.split(',')
     for t in table:
         if not pfilter(t, condition):
             continue
         tmp.append(t)
     if group_by:
         _group = get_group(tmp, group_by)
+        res = get_group_data(_group, field, group_by)
+        return res
     for t in tmp:
-        res.append([getattr(t, n) for n in name])
+        res.append([getattr(t, n) for n in field])
     return res
 
 def pfilter(row, condition):
@@ -58,6 +60,23 @@ def get_group(data, field):
         res[getattr(d, field)].append(d)
     return res
 
+def get_group_data(groupdata,fds, groupby):
+    res = []
+    k1, k2 = 'NULL', 'NULL'
+    for g in groupdata:
+        if fds[0] == groupby:
+            k1 = g
+        k2 = s_group_data(fds[1], groupdata[g])
+        res.append([k1, k2])
+    return res
+
+def s_group_data(fds, data):
+    if fds.startswith('count('):
+        return len(data)
+    elif fds.startswith('sum('):
+        return sum([getattr(i, fds[4:-1]) for i in data])
+    return 'NULL'
+
 if __name__ == '__main__':
     row = ('Job', 'title', 'salary', 'city', 'companyid')
     data = [('pydev', 12, 'beijing', 15),
@@ -70,4 +89,4 @@ if __name__ == '__main__':
             ('pydev', 18, 'changzhi', 322),
             ('javadev', 18, 'shanghai', 199), ]
     table = create_table(row, data)
-    print(select('title,companyid', table, 'salary>15'))
+    print(select('companyid,count(title)', table, None, 'companyid'))

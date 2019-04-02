@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="150e04dd-ee48-46d6-909c-43070917a6a0" name="trian" url="http://192.168.127.51">
+        <fileTransfer anonymous="true" host="192.168.127.51" port="2130">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="2130" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
