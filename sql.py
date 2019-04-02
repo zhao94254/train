@@ -7,6 +7,30 @@
 
 from collections import namedtuple, defaultdict
 
+class Table(object):
+
+    def __init__(self, tname, rowname):
+        self.tname = tname
+        self.rowname = rowname
+
+    def __call__(self, data):
+        self.create_table(data)
+        return self
+
+    def create_table(self, data):
+        table_row = namedtuple(self.tname, self.rowname)
+        self.table = [table_row(*i) for i in data]
+        return self.table
+
+    def __str__(self):
+        print('Table', self.tname)
+        print('   '.join(self.rowname))
+        for t in self.table:
+            print('    '.join([str(getattr(t, i)) for i in self.rowname]))
+        return ''
+
+    __repr__ = __str__
+
 def create_table(row, data):
     """
     row[0] 表名  row[1:] 列名 data 要插入的数据
@@ -96,7 +120,9 @@ if __name__ == '__main__':
             ('c++dev', 18, 'shanghai', 233),
             ('pydev', 18, 'changzhi', 322),
             ('javadev', 18, 'shanghai', 199), ]
-    table = create_table(row, data)
-    print(select('companyid,count(title)', table, None, 'companyid'))
+    table = Table('Job', ('title', 'salary', 'city', 'companyid'))(data)
+    print(str(table))
+    # table = create_table(row, data)
+    # print(select('companyid,count(title)', table, None, 'companyid'))
 
-    print(str_parse("select * from table where xx>100"))
+    # print(str_parse("select * from table where xx>100"))
