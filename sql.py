@@ -77,6 +77,14 @@ def s_group_data(fds, data):
         return sum([getattr(i, fds[4:-1]) for i in data])
     return 'NULL'
 
+def str_parse(sql):
+    sql_obj = {}
+    slst = sql.split()
+    for k in range(len(slst)):
+        if k%2 == 0:
+            sql_obj[slst[k]] = slst[k+1]
+    return sql_obj
+
 if __name__ == '__main__':
     row = ('Job', 'title', 'salary', 'city', 'companyid')
     data = [('pydev', 12, 'beijing', 15),
@@ -90,3 +98,5 @@ if __name__ == '__main__':
             ('javadev', 18, 'shanghai', 199), ]
     table = create_table(row, data)
     print(select('companyid,count(title)', table, None, 'companyid'))
+
+    print(str_parse("select * from table where xx>100"))
