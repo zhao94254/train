@@ -25,6 +25,7 @@ def select(name, table, condition=None):
     :return:
     """
     res = []
+    tmp = []
     if name == '*':
         name = table[0]._fields
     else:
@@ -32,6 +33,8 @@ def select(name, table, condition=None):
     for t in table:
         if not pfilter(t, condition):
             continue
+        tmp.append(t)
+    for t in tmp:
         res.append([getattr(t, n) for n in name])
     return res
 
@@ -42,13 +45,15 @@ def pfilter(row, condition):
         return True
 
 if __name__ == '__main__':
-    row = ('Row', 'name', 'age', 'location', 'money')
-    data = [('jack', 12, 'beijing', 15),
-            ('rose', 15, 'shanghai', 23),
-            ('aha', 20, 'taiyuan', 345),
-            ('liuxing', 18, 'changzhi', 432),
-            ('luben', 18, 'shanghai', 233),
-            ('douchuan', 18, 'changzhi', 322),
-            ('heihai', 18, 'shanghai', 199), ]
+    row = ('Job', 'title', 'salary', 'city', 'companyid')
+    data = [('pydev', 12, 'beijing', 15),
+            ('c++dev', 12, 'beijing', 15),
+            ('cdev', 12, 'beijing', 15),
+            ('pydev', 15, 'shanghai', 23),
+            ('c++dev', 20, 'taiyuan', 345),
+            ('pydev', 18, 'changzhi', 432),
+            ('c++dev', 18, 'shanghai', 233),
+            ('pydev', 18, 'changzhi', 322),
+            ('javadev', 18, 'shanghai', 199), ]
     table = create_table(row, data)
     print(select('name', table, 'money>200'))
