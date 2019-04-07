@@ -13,6 +13,7 @@
 
 * 而用sql来做是这样的
 
+
     select * from table where salary=s;
 
 区别主要是因为python属于命令式语言，sql算声明式的，对于命令式语言来说要做一个事情，这个事情怎么做，这个过程要来自己写，而对   
@@ -52,6 +53,7 @@
     select * from table;
     
 * 第一步，创建一个table
+
 
     from collections import namedtuple
     
