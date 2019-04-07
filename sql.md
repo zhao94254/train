@@ -55,38 +55,38 @@
 * 第一步，创建一个table
 
 
-    from collections import namedtuple
-    
-    def create_table(row, data):
-        """
-        row[0] 表名  row[1:] 列名 data 要插入的数据
-        :param row: ['Job', 'salary', 'name', 'city']
-        :param data: [[100, dev, cz]]
-        :return:
-        """
-        table_row = namedtuple(row[0], row[1:])
-        table = [table_row(*i) for i in data]
-        return table
+        from collections import namedtuple
+
+        def create_table(row, data):
+            """
+            row[0] 表名  row[1:] 列名 data 要插入的数据
+            :param row: ['Job', 'salary', 'name', 'city']
+            :param data: [[100, dev, cz]]
+            :return:
+            """
+            table_row = namedtuple(row[0], row[1:])
+            table = [table_row(*i) for i in data]
+            return table
 
 
 * 第二步，写一个select函数
 
 
 
-    def select(name, table):
-        """
-        :param name: 需要选的字段
-        :param table: 表对象
-        :return:
-        """
-        res = []
-        if name == '*':
-            name = table[0]._fields
-        else:
-            name = name.split(',')
-        for t in table:
-            res.append([getattr(t, n) for n in name])
-        return res
+        def select(name, table):
+            """
+            :param name: 需要选的字段
+            :param table: 表对象
+            :return:
+            """
+            res = []
+            if name == '*':
+                name = table[0]._fields
+            else:
+                name = name.split(',')
+            for t in table:
+                res.append([getattr(t, n) for n in name])
+            return res
 
 
 添加最常用的 where子句
@@ -96,11 +96,11 @@
 * 第三步，添加过滤
 
 
-    def pfilter(row, condition):
-        if condition:
-            return eval(condition, {field: getattr(row, field) for field in row._fields})
-        else:
-            return True
+        def pfilter(row, condition):
+            if condition:
+                return eval(condition, {field: getattr(row, field) for field in row._fields})
+            else:
+                return True
 
 
 按照公司名进行分组
