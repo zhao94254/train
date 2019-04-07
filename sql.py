@@ -18,9 +18,17 @@ class Table(object):
         return self
 
     def create_table(self, data):
+        self.fxrowname()
         table_row = namedtuple(self.tname, self.rowname)
         self.table = [table_row(*i) for i in data]
         return self.table
+
+    def fxrowname(self):
+        """
+        rowname count(xx) -> count_xx
+        :return:
+        """
+        self.rowname = tuple(i.replace('(', '_').replace(')','') for i in self.rowname)
 
     def __str__(self):
         print('Table: ', self.tname)
@@ -62,7 +70,8 @@ def _select(field, tableobj, condition=None, group_by=None):
     if group_by:
         _group = get_group(tmp, group_by)
         res = get_group_data(_group, field, group_by)
-        return res
+        resobj = Table(tableobj.tname, (*field,))(res)
+        return resobj
     for t in tmp:
         res.append([getattr(t, n) for n in field])
     resobj = Table(tableobj.tname, (*field,))(res)
