@@ -68,7 +68,9 @@
         table = [table_row(*i) for i in data]
         return table
 
+
 * 第二步，写一个select函数
+
 
 
     def select(name, table):
