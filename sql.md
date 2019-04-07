@@ -14,7 +14,7 @@
 * 而用sql来做是这样的
 
 
-    select * from table where salary=s;
+        select * from table where salary=s;
 
 区别主要是因为python属于命令式语言，sql算声明式的，对于命令式语言来说要做一个事情，这个事情怎么做，这个过程要来自己写，而对   
 于声明式语言来说重点是关注这个结果。xpath也是这样的。这也是为什么声明式语言更适合于并行计算（主要是因为这类语言抽象掉了过程细节）
@@ -91,7 +91,7 @@
 
 添加最常用的 where子句
 
-    select * from table where city='changzhi';
+        select * from table where city='changzhi';
     
 * 第三步，添加过滤
 
@@ -160,7 +160,10 @@
     companyid   count_title
     15    3
 
-代码在这里
-https://github.com/zhao94254/train/blob/master/sql.py
-个人博客  
+代码在这里   
+
+https://github.com/zhao94254/train/blob/master/sql.py   
+
+个人博客     
+
 https://www.97up.cn  
