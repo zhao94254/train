@@ -23,7 +23,7 @@ class Table(object):
         return self.table
 
     def __str__(self):
-        print('Table', self.tname)
+        print('Table: ', self.tname)
         print('   '.join(self.rowname))
         for t in self.table:
             print('    '.join([str(getattr(t, i)) for i in self.rowname]))
@@ -120,9 +120,10 @@ if __name__ == '__main__':
             ('c++dev', 18, 'shanghai', 233),
             ('pydev', 18, 'changzhi', 322),
             ('javadev', 18, 'shanghai', 199), ]
-    table = Table('Job', ('title', 'salary', 'city', 'companyid'))(data)
-    print(str(table))
+    tojb = Table('Job', ('title', 'salary', 'city', 'companyid'))(data)
+    print(tojb)
+
     # table = create_table(row, data)
-    # print(select('companyid,count(title)', table, None, 'companyid'))
+    print(select('companyid,count(title)', tojb.table, None, 'companyid'))
 
     # print(str_parse("select * from table where xx>100"))
