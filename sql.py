@@ -121,6 +121,7 @@ def str_parse(sql):
     return sql_obj
 
 def exec_sql(sql, table):
+    print(sql)
     sql_obj = str_parse(sql)
     return _select(sql_obj['select'], table, sql_obj.get('where', None), sql_obj.get('groupby', None))
 
