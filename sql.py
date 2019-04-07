@@ -42,7 +42,7 @@ def create_table(row, data):
     table = [table_row(*i) for i in data]
     return table
 
-def _select(field, table, condition=None, group_by=None):
+def _select(field, tableobj, condition=None, group_by=None):
     """
     :param field: 需要选的字段
     :param table: 表对象
@@ -50,6 +50,7 @@ def _select(field, table, condition=None, group_by=None):
     """
     res = []
     tmp = []
+    table = tableobj.table
     if field == '*':
         field = table[0]._fields
     else:
@@ -64,7 +65,8 @@ def _select(field, table, condition=None, group_by=None):
         return res
     for t in tmp:
         res.append([getattr(t, n) for n in field])
-    return res
+    resobj = Table(tableobj.tname, (*field,))(res)
+    return resobj
 
 def pfilter(row, condition):
     if condition:
@@ -130,7 +132,7 @@ if __name__ == '__main__':
     tojb = Table('Job', ('title', 'salary', 'city', 'companyid'))(data) # 新的创建表的方式
     print(tojb)
 
-    print(exec_sql("select companyid,count(title) from job where city=='beijing' groupby companyid", tojb.table))
-    print(exec_sql("select companyid,count(title) from job groupby companyid", tojb.table))
-    print(exec_sql("select companyid,sum(salary) from job where city=='beijing' groupby companyid", tojb.table))
-    print(exec_sql("select companyid,title from job where city=='beijing'", tojb.table))
+    print(exec_sql("select companyid,count(title) from job where city=='beijing' groupby companyid", tojb))
+    print(exec_sql("select companyid,count(title) from job groupby companyid", tojb))
+    print(exec_sql("select companyid,sum(salary) from job where city=='beijing' groupby companyid", tojb))
+    print(exec_sql("select companyid,title from job where city=='beijing'", tojb))
